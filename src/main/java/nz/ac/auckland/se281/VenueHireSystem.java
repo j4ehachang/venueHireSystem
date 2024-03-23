@@ -37,6 +37,10 @@ public class VenueHireSystem {
       MessageCli.NO_VENUES.printMessage();
     } else if (venueList.size() == 1) {
       MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
+      MessageCli.VENUE_ENTRY.printMessage(venueList.get(0).get_venueName(), 
+      venueList.get(0).get_venueCode(), venueList.get(0).get_capacityInput(), 
+      venueList.get(0).get_hireFeeInput());
+
     } else if (venueList.size() < 10) {
       MessageCli.NUMBER_VENUES.printMessage("are", switchCase(venueList.size()), "s");
     } else if (venueList.size() >= 10) {

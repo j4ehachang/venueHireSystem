@@ -13,19 +13,19 @@ public class Venue {
     this.hireFeeInput =  hireFeeInput;
   }
 
-  public void get_venueName(){
-    System.out.println(this.venueName);
+  public String get_venueName(){
+    return this.venueName;
   }  
 
-  public void get_venueCode(){
-    System.out.println(this.venueCode);
+  public String get_venueCode(){
+    return this.venueCode;
   }  
 
-  public void get_capacityInput(){
-    System.out.println(this.capacityInput);
+  public String get_capacityInput(){
+    return this.capacityInput;
   }  
 
-  public void get_hireFeeInput(){
-    System.out.println(this.hireFeeInput);
+  public String get_hireFeeInput(){
+    return this.hireFeeInput;
   }  
 }

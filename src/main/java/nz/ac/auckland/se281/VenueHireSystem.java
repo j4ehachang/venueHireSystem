@@ -11,12 +11,15 @@ public class VenueHireSystem {
   public void printVenues() {
     if (venueList.isEmpty()) { 
       MessageCli.NO_VENUES.printMessage();
-    }
+    } 
   }
 
   public void createVenue(
       String venueName, String venueCode, String capacityInput, String hireFeeInput) {
       Venue venue = new Venue(venueName, venueCode, capacityInput, hireFeeInput);
+      
+
+      MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venueName, venueCode);
       venueList.add(venue);
   }
 

@@ -18,9 +18,22 @@ public class VenueHireSystem {
       String venueName, String venueCode, String capacityInput, String hireFeeInput) {
       Venue venue = new Venue(venueName, venueCode, capacityInput, hireFeeInput);
       
+      try {
+      int capacity = Integer.parseInt(capacityInput);
+      if (capacity < 0) {
+        MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity", " positive");
+        return;
+      }
+      } catch(Exception e){
+        MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity", "");
+        return;
+      }
+
       if (venueName.isEmpty()) {
         MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
-      } else {
+      }
+      
+      else {
         MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venueName, venueCode);
         venueList.add(venue);
       }

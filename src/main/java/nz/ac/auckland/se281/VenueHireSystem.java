@@ -29,6 +29,17 @@ public class VenueHireSystem {
         return;
       }
 
+      try {
+        int hireFee = Integer.parseInt(hireFeeInput);
+        if (hireFee < 0) {
+          MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("hire fee", " positive");
+          return;
+        }
+        } catch(Exception e){
+          MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("hire fee", "");
+          return;
+        }
+
       if (venueName.isEmpty()) {
         MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
       }

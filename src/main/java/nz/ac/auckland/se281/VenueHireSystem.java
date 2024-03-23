@@ -43,8 +43,15 @@ public class VenueHireSystem {
 
     } else if (venueList.size() < 10) {
       MessageCli.NUMBER_VENUES.printMessage("are", switchCase(venueList.size()), "s");
+      for (Venue venue : venueList) {
+        MessageCli.VENUE_ENTRY.printMessage(venue.get_venueName(), venue.get_venueCode(), venue.get_capacityInput(), venue.get_hireFeeInput());
+      }
+
     } else if (venueList.size() >= 10) {
       MessageCli.NUMBER_VENUES.printMessage("are", String.valueOf(venueList.size()), "s");
+      for (Venue venue : venueList) {
+        MessageCli.VENUE_ENTRY.printMessage(venue.get_venueName(), venue.get_venueCode(), venue.get_capacityInput(), venue.get_hireFeeInput());
+      }
     }
   }
 

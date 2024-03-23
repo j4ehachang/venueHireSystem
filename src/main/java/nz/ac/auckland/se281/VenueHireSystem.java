@@ -41,7 +41,7 @@ public class VenueHireSystem {
         MessageCli.VENUE_ENTRY.printMessage(venue.get_venueName(), venue.get_venueCode(), venue.get_capacityInput(), venue.get_hireFeeInput());
       }
 
-    } else if (venueList.size() < 10) {
+    } else if (venueList.size() < 10 && venueList.size() > 1) {
       MessageCli.NUMBER_VENUES.printMessage("are", switchCase(venueList.size()), "s");
       for (Venue venue : venueList) {
         MessageCli.VENUE_ENTRY.printMessage(venue.get_venueName(), venue.get_venueCode(), venue.get_capacityInput(), venue.get_hireFeeInput());
@@ -57,7 +57,7 @@ public class VenueHireSystem {
 
   public void createVenue(
       String venueName, String venueCode, String capacityInput, String hireFeeInput) {
-      Venue venue = new Venue(venueName, venueCode, capacityInput, hireFeeInput);
+      Venue newVenue = new Venue(venueName, venueCode, capacityInput, hireFeeInput);
       
       try {
       int capacity = Integer.parseInt(capacityInput);
@@ -81,13 +81,18 @@ public class VenueHireSystem {
           return;
         }
 
+      for (Venue venue : venueList) {
+        if (venue.get_venueCode().equals(venueCode)){
+          MessageCli.VENUE_NOT_CREATED_CODE_EXISTS.printMessage(venueCode, venue.get_venueName());
+          return;
+        }
+      }
+
       if (venueName.isEmpty()) {
         MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
-      }
-      
-      else {
+      } else {
         MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venueName, venueCode);
-        venueList.add(venue);
+        venueList.add(newVenue);
       }
   }
 

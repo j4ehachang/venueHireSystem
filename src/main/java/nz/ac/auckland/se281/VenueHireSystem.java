@@ -11,7 +11,9 @@ public class VenueHireSystem {
   public void printVenues() {
     if (venueList.isEmpty()) { 
       MessageCli.NO_VENUES.printMessage();
-    } 
+    } else if (venueList.size() == 1) {
+      MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
+    }
   }
 
   public void createVenue(

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public class VenueHireSystem {
   public VenueHireSystem() {}
-  ArrayList<Venue> venueList = new ArrayList<>();
+  private ArrayList<Venue> venueList = new ArrayList<>();
   
-  public String switchCase(int size){
+  private String integerToString(int size){
     
     switch(size){
       case 2:
@@ -42,7 +42,7 @@ public class VenueHireSystem {
       }
 
     } else if (venueList.size() < 10 && venueList.size() > 1) {
-      MessageCli.NUMBER_VENUES.printMessage("are", switchCase(venueList.size()), "s");
+      MessageCli.NUMBER_VENUES.printMessage("are", integerToString(venueList.size()), "s");
       for (Venue venue : venueList) {
         MessageCli.VENUE_ENTRY.printMessage(venue.get_venueName(), venue.get_venueCode(), venue.get_capacityInput(), venue.get_hireFeeInput());
       }

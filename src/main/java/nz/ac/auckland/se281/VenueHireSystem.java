@@ -118,12 +118,22 @@ public class VenueHireSystem {
     }
   }
 
+  // Create string to save the current date
+  private String currentDate = null;
+
   public void setSystemDate(String dateInput) {
     MessageCli.DATE_SET.printMessage(dateInput);
+    currentDate = dateInput;
   }
 
   public void printSystemDate() {
-    MessageCli.CURRENT_DATE.printMessage("not set");
+    // Print error message if system date is not set
+    if (currentDate.equals(null)) {
+      MessageCli.CURRENT_DATE.printMessage("not set");
+    } else {
+      // Print current date if it was previously set by user
+      MessageCli.CURRENT_DATE.printMessage(currentDate);
+    }
   }
 
   public void makeBooking(String[] options) {

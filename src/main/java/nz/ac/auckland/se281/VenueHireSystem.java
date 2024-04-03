@@ -233,6 +233,16 @@ public class VenueHireSystem {
     bookingList.add(newBooking);
   }
 
+  private String nextDay(String date) {
+    String[] dateParts = date.split("/");
+    int day = Integer.parseInt(dateParts[0]);
+    int month = Integer.parseInt(dateParts[1]);
+    int year = Integer.parseInt(dateParts[2]);
+
+    day = day + 1;
+    return String.format("%02d/%02d/%04d", day, month, year);
+  }
+
   public void printBookings(String venueCode) {
     // TODO implement this method
   }

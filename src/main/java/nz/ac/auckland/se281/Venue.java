@@ -34,7 +34,7 @@ public class Venue {
     return this.nextAvailableDate;
   }
 
-  public void get_nextAvailableDate(String nextAvailableDate) {
+  public void set_nextAvailableDate(String nextAvailableDate) {
     this.nextAvailableDate = nextAvailableDate;
   }
 }

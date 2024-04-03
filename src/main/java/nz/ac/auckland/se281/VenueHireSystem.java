@@ -139,6 +139,8 @@ public class VenueHireSystem {
   public void makeBooking(String[] options) {
     if (currentDate == null) {
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage("not set");
+    } else if (venueList.size() < 1) {
+      MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
     }
   }
 

@@ -137,7 +137,8 @@ public class VenueHireSystem {
   }
 
   private boolean venueCodeExists = false;
-  private String bookedVenueName = "";
+  private String bookVenueName = "";
+  private String bookVenueCapacity = "";
   private ArrayList<Booking> bookingList = new ArrayList<>();
 
   public void makeBooking(String[] options) {
@@ -145,7 +146,8 @@ public class VenueHireSystem {
     for (Venue venue : venueList) {
       if (venue.get_venueCode().equals(options[0])) {
         venueCodeExists = true;
-        bookedVenueName = venue.get_venueName();
+        bookVenueName = venue.get_venueName();
+        bookVenueCapacity = venue.get_capacityInput();
         break;
       }
     }
@@ -185,17 +187,31 @@ public class VenueHireSystem {
 
     // Same venue cannot be booked on the same day
     for (Booking booking : bookingList) {
-      if (booking.get_venueName().equals(bookedVenueName) && booking.get_bookingDate().equals(options[1])) {
-        MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(booking.get_venueName(), booking.get_bookingDate());
+      if (booking.get_venueName().equals(bookVenueName)
+          && booking.get_bookingDate().equals(options[1])) {
+        MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(
+            booking.get_venueName(), booking.get_bookingDate());
         return;
       }
+    }
+
+    // If number of attendees are not ideal adjust them to fit the capacity
+    int originalNumberOfAttendees = Integer.parseInt(options[3]);
+    int capacity = Integer.parseInt(bookVenueCapacity);
+    if (originalNumberOfAttendees < 0.25 * capacity) {
+      int newNumberOfAttendees = (int) (0.25 * capacity);
+      MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
+          String.valueOf(originalNumberOfAttendees),
+          String.valueOf(newNumberOfAttendees),
+          bookVenueCapacity);
+      options[3] = String.valueOf(newNumberOfAttendees);
     }
 
     // If no errors occur a booking is made successfully
     String bookingReference = BookingReferenceGenerator.generateBookingReference();
     MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
-        bookingReference, bookedVenueName, options[1], options[3]);
-    Booking newBooking = new Booking(bookingReference, bookedVenueName, options[1], options[3]);
+        bookingReference, bookVenueName, options[1], options[3]);
+    Booking newBooking = new Booking(bookingReference, bookVenueName, options[1], options[3]);
     bookingList.add(newBooking);
   }
 

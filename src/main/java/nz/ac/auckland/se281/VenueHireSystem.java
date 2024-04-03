@@ -33,7 +33,13 @@ public class VenueHireSystem {
     }
   }
 
+  private String nextAvailableDate;
+
   public void printVenues() {
+
+    //Assume the next available date is the current date
+    nextAvailableDate = currentDate;
+
     // If there are no venues in the system tell the user to create a venue first
     if (venueList.isEmpty()) {
       MessageCli.NO_VENUES.printMessage();
@@ -47,7 +53,8 @@ public class VenueHireSystem {
             venue.get_venueName(),
             venue.get_venueCode(),
             venue.get_capacityInput(),
-            venue.get_hireFeeInput());
+            venue.get_hireFeeInput(),
+            nextAvailableDate);
       }
       // If there are more than one and less than ten venues print the number of venues as a string
     } else if (venueList.size() < 10 && venueList.size() > 1) {
@@ -57,7 +64,8 @@ public class VenueHireSystem {
             venue.get_venueName(),
             venue.get_venueCode(),
             venue.get_capacityInput(),
-            venue.get_hireFeeInput());
+            venue.get_hireFeeInput(),
+            nextAvailableDate);
       }
       // If there are more than or equal to ten venues print out the number of venues as a integer
     } else if (venueList.size() >= 10) {
@@ -67,7 +75,8 @@ public class VenueHireSystem {
             venue.get_venueName(),
             venue.get_venueCode(),
             venue.get_capacityInput(),
-            venue.get_hireFeeInput());
+            venue.get_hireFeeInput(),
+            nextAvailableDate);
       }
     }
   }

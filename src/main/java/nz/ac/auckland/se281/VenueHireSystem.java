@@ -283,6 +283,13 @@ public class VenueHireSystem {
     if (bookingCount == 0) {
       MessageCli.PRINT_BOOKINGS_HEADER.printMessage(printVenue.get_venueName());
       MessageCli.PRINT_BOOKINGS_NONE.printMessage(printVenue.get_venueName());
+    } else if (bookingCount > 0) {
+      MessageCli.PRINT_BOOKINGS_HEADER.printMessage(printVenue.get_venueName());
+      for (Booking booking : bookingList) {
+        if (printVenue.get_venueName().equals(booking.get_venueName())) {
+          MessageCli.PRINT_BOOKINGS_ENTRY.printMessage(booking.get_bookingReference(), booking.get_bookingDate());
+        }
+      }
     }
   }
 

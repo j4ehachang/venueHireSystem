@@ -7,6 +7,7 @@ import nz.ac.auckland.se281.Types.FloralType;
 public class VenueHireSystem {
   public VenueHireSystem() {}
 
+  // Create an empty array list to store all the venues
   private ArrayList<Venue> venueList = new ArrayList<>();
 
   private String integerToString(int size) {
@@ -37,7 +38,7 @@ public class VenueHireSystem {
 
   public void printVenues() {
 
-    //Assume the next available date is the current date
+    // Assume the next available date is the current date
     nextAvailableDate = currentDate;
 
     // If there are no venues in the system tell the user to create a venue first
@@ -183,7 +184,7 @@ public class VenueHireSystem {
     int bookingMonth = Integer.parseInt(bookingDateParts[1]);
     int bookingYear = Integer.parseInt(bookingDateParts[2]);
 
-    // Booking date cannot be in the past
+    // Booking date cannot be in the past therefore return error message if it is
     if (bookingYear < currentYear
         || (bookingYear == currentYear && bookingMonth < currentMonth)
         || (bookingYear == currentYear
@@ -194,7 +195,7 @@ public class VenueHireSystem {
       return;
     }
 
-    // Same venue cannot be booked on the same day
+    // Return error message if same venue is booked on the same date
     for (Booking booking : bookingList) {
       if (booking.get_venueName().equals(bookVenueName)
           && booking.get_bookingDate().equals(options[1])) {

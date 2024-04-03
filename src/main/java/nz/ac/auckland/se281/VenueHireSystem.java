@@ -183,6 +183,14 @@ public class VenueHireSystem {
       return;
     }
 
+    // Same venue cannot be booked on the same day
+    for (Booking booking : bookingList) {
+      if (booking.get_venueName().equals(bookedVenueName) && booking.get_bookingDate().equals(options[1])) {
+        MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(booking.get_venueName(), booking.get_bookingDate());
+        return;
+      }
+    }
+
     // If no errors occur a booking is made successfully
     String bookingReference = BookingReferenceGenerator.generateBookingReference();
     MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(

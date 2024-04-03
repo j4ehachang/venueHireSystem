@@ -136,11 +136,23 @@ public class VenueHireSystem {
     }
   }
 
+  private boolean venueCodeExists = false;
+
   public void makeBooking(String[] options) {
+
+    for (Venue venue : venueList) {
+      if (venue.get_venueCode().equals(options[0])) {
+        venueCodeExists = true;
+        return;
+      }
+    }
+
     if (currentDate == null) {
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage("not set");
     } else if (venueList.size() < 1) {
       MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
+    } else if (venueCodeExists = false) {
+      MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(options[0]);
     }
   }
 

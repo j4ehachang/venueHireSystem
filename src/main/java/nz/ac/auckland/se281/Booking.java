@@ -13,4 +13,19 @@ public class Booking {
     this.numberOfAttendees = numberofAttendees;
   }
 
+  public String get_bookingReference() {
+    return this.bookingReference;
+  }
+
+  public String get_venueName() {
+    return this.venueName;
+  }
+
+  public String get_bookingDate() {
+    return this.bookingDate;
+  }
+
+  public String get_numberOfAttendees() {
+    return this.numberOfAttendees;
+  }
 }

@@ -138,6 +138,7 @@ public class VenueHireSystem {
 
   private boolean venueCodeExists = false;
   private String bookedVenueName = "";
+  private ArrayList<Booking> bookingList = new ArrayList<>();
 
   public void makeBooking(String[] options) {
 
@@ -183,9 +184,11 @@ public class VenueHireSystem {
     }
 
     // If no errors occur a booking is made successfully
-   String bookingReference = BookingReferenceGenerator.generateBookingReference();
+    String bookingReference = BookingReferenceGenerator.generateBookingReference();
     MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
         bookingReference, bookedVenueName, options[1], options[3]);
+    Booking newBooking = new Booking(bookingReference, bookedVenueName, options[1], options[3]);
+    bookingList.add(newBooking);
   }
 
   public void printBookings(String venueCode) {

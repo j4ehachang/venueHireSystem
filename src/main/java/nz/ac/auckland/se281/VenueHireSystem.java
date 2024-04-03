@@ -258,8 +258,20 @@ public class VenueHireSystem {
     return String.format("%02d/%02d/%04d", day, month, year);
   }
 
+  private boolean codeExists = false;
+  private Venue printVenue;
+
   public void printBookings(String venueCode) {
-    // TODO implement this method
+    for (Venue venue : venueList) {
+      if (venue.get_venueCode().equals(venueCode)) {
+        codeExists = true;
+        printVenue = venue;
+      }
+    }
+
+    if (codeExists == false) {
+      MessageCli.PRINT_BOOKINGS_VENUE_NOT_FOUND.printMessage(venueCode);
+    }
   }
 
   public void addCateringService(String bookingReference, CateringType cateringType) {

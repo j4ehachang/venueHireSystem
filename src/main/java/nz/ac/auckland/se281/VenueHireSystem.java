@@ -198,8 +198,16 @@ public class VenueHireSystem {
     // If number of attendees are not ideal adjust them to fit the capacity
     int originalNumberOfAttendees = Integer.parseInt(options[3]);
     int capacity = Integer.parseInt(bookVenueCapacity);
+    int newNumberOfAttendees = -1;
     if (originalNumberOfAttendees < 0.25 * capacity) {
-      int newNumberOfAttendees = (int) (0.25 * capacity);
+      newNumberOfAttendees = (int) (0.25 * capacity);
+      MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
+          String.valueOf(originalNumberOfAttendees),
+          String.valueOf(newNumberOfAttendees),
+          bookVenueCapacity);
+      options[3] = String.valueOf(newNumberOfAttendees);
+    } else if (originalNumberOfAttendees > capacity) {
+      newNumberOfAttendees = capacity;
       MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
           String.valueOf(originalNumberOfAttendees),
           String.valueOf(newNumberOfAttendees),

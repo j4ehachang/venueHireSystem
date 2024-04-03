@@ -128,7 +128,7 @@ public class VenueHireSystem {
 
   public void printSystemDate() {
     // Print error message if system date is not set
-    if (currentDate.equals(null)) {
+    if (currentDate == null) {
       MessageCli.CURRENT_DATE.printMessage("not set");
     } else {
       // Print current date if it was previously set by user
@@ -137,7 +137,9 @@ public class VenueHireSystem {
   }
 
   public void makeBooking(String[] options) {
-    // TODO implement this method
+    if (currentDate == null) {
+      MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage("not set");
+    }
   }
 
   public void printBookings(String venueCode) {

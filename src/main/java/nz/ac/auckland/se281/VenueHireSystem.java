@@ -143,16 +143,41 @@ public class VenueHireSystem {
     for (Venue venue : venueList) {
       if (venue.get_venueCode().equals(options[0])) {
         venueCodeExists = true;
-        return;
+        break;
       }
     }
 
     if (currentDate == null) {
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage("not set");
+      return;
     } else if (venueList.size() < 1) {
       MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
+      return;
     } else if (venueCodeExists == false) {
       MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(options[0]);
+      return;
+    }
+
+    // Split current date and date given by user and convert to integers
+    String[] currentDateParts = currentDate.split("/");
+    int currentDay = Integer.parseInt(currentDateParts[0]);
+    int currentMonth = Integer.parseInt(currentDateParts[1]);
+    int currentYear = Integer.parseInt(currentDateParts[2]);
+
+    String[] bookingDateParts = options[1].split("/");
+    int bookingDay = Integer.parseInt(bookingDateParts[0]);
+    int bookingMonth = Integer.parseInt(bookingDateParts[1]);
+    int bookingYear = Integer.parseInt(bookingDateParts[2]);
+
+    // Booking date cannot be in the past
+    if (bookingYear < currentYear
+        || (bookingYear == currentYear && bookingMonth < currentMonth)
+        || (bookingYear == currentYear
+            && bookingMonth == currentMonth
+            && bookingDay < currentDay)) {
+
+      MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], currentDate);
+      return;
     }
   }
 

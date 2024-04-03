@@ -34,13 +34,19 @@ public class VenueHireSystem {
     }
   }
 
-  private String nextAvailableDate;
-
   public void printVenues() {
-
-    // Assume the next available date is the current date
-    nextAvailableDate = currentDate;
-
+    // When the currentDate has not been set the next available date for the venues are all invalid
+    if (currentDate == null) {
+      for (Venue venue : venueList) {
+        venue.set_nextAvailableDate("INVALID");
+      }
+    }
+    // For venues that have no bookings the next available date is the current date
+    for (Venue venue : venueList) {
+      if (venue.get_nextAvailableDate() == null) {
+        venue.set_nextAvailableDate(currentDate);
+      }
+    }
     // If there are no venues in the system tell the user to create a venue first
     if (venueList.isEmpty()) {
       MessageCli.NO_VENUES.printMessage();
@@ -55,7 +61,7 @@ public class VenueHireSystem {
             venue.get_venueCode(),
             venue.get_capacityInput(),
             venue.get_hireFeeInput(),
-            nextAvailableDate);
+            venue.get_nextAvailableDate());
       }
       // If there are more than one and less than ten venues print the number of venues as a string
     } else if (venueList.size() < 10 && venueList.size() > 1) {
@@ -66,7 +72,7 @@ public class VenueHireSystem {
             venue.get_venueCode(),
             venue.get_capacityInput(),
             venue.get_hireFeeInput(),
-            nextAvailableDate);
+            venue.get_nextAvailableDate());
       }
       // If there are more than or equal to ten venues print out the number of venues as a integer
     } else if (venueList.size() >= 10) {
@@ -77,7 +83,7 @@ public class VenueHireSystem {
             venue.get_venueCode(),
             venue.get_capacityInput(),
             venue.get_hireFeeInput(),
-            nextAvailableDate);
+            venue.get_nextAvailableDate());
       }
     }
   }
@@ -147,8 +153,7 @@ public class VenueHireSystem {
   }
 
   private boolean venueCodeExists = false;
-  private String bookVenueName = "";
-  private String bookVenueCapacity = "";
+  private Venue bookedVenue;
   private ArrayList<Booking> bookingList = new ArrayList<>();
 
   public void makeBooking(String[] options) {
@@ -156,8 +161,7 @@ public class VenueHireSystem {
     for (Venue venue : venueList) {
       if (venue.get_venueCode().equals(options[0])) {
         venueCodeExists = true;
-        bookVenueName = venue.get_venueName();
-        bookVenueCapacity = venue.get_capacityInput();
+        bookedVenue = venue;
         break;
       }
     }
@@ -197,7 +201,7 @@ public class VenueHireSystem {
 
     // Return error message if same venue is booked on the same date
     for (Booking booking : bookingList) {
-      if (booking.get_venueName().equals(bookVenueName)
+      if (booking.get_venueName().equals(bookedVenue.get_venueName())
           && booking.get_bookingDate().equals(options[1])) {
         MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(
             booking.get_venueName(), booking.get_bookingDate());
@@ -207,30 +211,41 @@ public class VenueHireSystem {
 
     // If number of attendees are not ideal adjust them to fit the capacity
     int originalNumberOfAttendees = Integer.parseInt(options[3]);
-    int capacity = Integer.parseInt(bookVenueCapacity);
+    int capacity = Integer.parseInt(bookedVenue.get_capacityInput());
     int newNumberOfAttendees = -1;
     if (originalNumberOfAttendees < 0.25 * capacity) {
       newNumberOfAttendees = (int) (0.25 * capacity);
       MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
           String.valueOf(originalNumberOfAttendees),
           String.valueOf(newNumberOfAttendees),
-          bookVenueCapacity);
+          bookedVenue.get_capacityInput());
       options[3] = String.valueOf(newNumberOfAttendees);
     } else if (originalNumberOfAttendees > capacity) {
       newNumberOfAttendees = capacity;
       MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
           String.valueOf(originalNumberOfAttendees),
           String.valueOf(newNumberOfAttendees),
-          bookVenueCapacity);
+          bookedVenue.get_capacityInput());
       options[3] = String.valueOf(newNumberOfAttendees);
     }
 
     // If no errors occur a booking is made successfully
     String bookingReference = BookingReferenceGenerator.generateBookingReference();
     MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
-        bookingReference, bookVenueName, options[1], options[3]);
-    Booking newBooking = new Booking(bookingReference, bookVenueName, options[1], options[3]);
+        bookingReference, bookedVenue.get_venueName(), options[1], options[3]);
+    Booking newBooking =
+        new Booking(bookingReference, bookedVenue.get_venueName(), options[1], options[3]);
     bookingList.add(newBooking);
+
+    String tempDate = currentDate;
+    for (Booking booking : bookingList) {
+      if (booking.get_venueName().equals(bookedVenue.get_venueName())) {
+        while (tempDate.equals(booking.get_bookingDate())) {
+          tempDate = nextDay(tempDate);
+        }
+      }
+    }
+    bookedVenue.set_nextAvailableDate(tempDate);
   }
 
   private String nextDay(String date) {

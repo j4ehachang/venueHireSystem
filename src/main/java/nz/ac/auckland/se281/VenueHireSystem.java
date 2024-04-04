@@ -365,6 +365,7 @@ public class VenueHireSystem {
     int numberOfAttendees = Integer.parseInt(thisBooking.get_numberOfAttendees());
     int cateringFee = numberOfAttendees * cateringType.getCostPerPerson();
     thisBooking.set_cateringFee(cateringFee);
+    thisBooking.set_cateringType(cateringType.getName());
   }
 
   public void addServiceMusic(String bookingReference) {
@@ -402,6 +403,7 @@ public class VenueHireSystem {
         "Floral (" + floralType.getName() + ")", bookingReference);
 
     thisBooking.set_floralFee(floralType.getCost());
+    thisBooking.set_floralType(floralType.getName());
   }
 
   private Booking thisBooking;
@@ -430,5 +432,8 @@ public class VenueHireSystem {
     
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(thisBooking.get_hireFee());
 
+    if (thisBooking.get_cateringFee() > 0){
+      MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(thisBooking.get_cateringType(), String.valueOf(thisBooking.get_cateringFee()));
+    }
   }
 }

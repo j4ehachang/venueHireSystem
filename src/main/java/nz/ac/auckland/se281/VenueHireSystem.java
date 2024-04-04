@@ -348,6 +348,7 @@ public class VenueHireSystem {
     for (Booking booking : bookingList) {
       if (bookingReference.equals(booking.get_bookingReference())) {
         bookingExist = true;
+        thisBooking = booking;
       }
     }
 
@@ -359,6 +360,10 @@ public class VenueHireSystem {
 
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
         "Catering (" + cateringType.getName() + ")", bookingReference);
+    
+    int numberOfAttendees = Integer.parseInt(thisBooking.get_numberOfAttendees());
+    int cateringFee = numberOfAttendees * cateringType.getCostPerPerson();
+    thisBooking.set_cateringFee(cateringFee);
   }
 
   public void addServiceMusic(String bookingReference) {
@@ -391,6 +396,8 @@ public class VenueHireSystem {
 
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
         "Floral (" + floralType.getName() + ")", bookingReference);
+
+    thisBooking.set_floralFee(floralType.getCost());
   }
 
   private Booking thisBooking;

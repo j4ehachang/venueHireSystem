@@ -7,6 +7,8 @@ public class Booking {
   private String numberOfAttendees;
   private String dateOfBooking;
   private String customerEmail;
+  private int cateringFee;
+  private int floralFee;
 
   public Booking(String bookingReference, String venueName, String bookingDate, String numberofAttendees) {
     this.bookingReference = bookingReference;
@@ -45,5 +47,21 @@ public class Booking {
 
   public void set_customerEmail(String customerEmail) {
     this.customerEmail = customerEmail;
+  }
+
+  public int get_cateringFee() {
+    return this.cateringFee;
+  }
+
+  public void set_cateringFee(int cateringFee) {
+    this.cateringFee = cateringFee;
+  }
+
+  public int get_floralFee() {
+    return this.floralFee;
+  }
+
+  public void set_floralFee(int floralFee) {
+    this.floralFee = floralFee;
   }
 }

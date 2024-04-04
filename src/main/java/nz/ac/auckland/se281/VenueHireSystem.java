@@ -407,6 +407,9 @@ public class VenueHireSystem {
   }
 
   private Booking thisBooking;
+  private int cateringFee = 0;
+  private int floralFee = 0;
+  private int musicFee = 0;
 
   public void viewInvoice(String bookingReference) {
     for (Booking booking : bookingList) {
@@ -435,15 +438,23 @@ public class VenueHireSystem {
     if (thisBooking.get_cateringFee() > 0) {
       MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
           thisBooking.get_cateringType(), String.valueOf(thisBooking.get_cateringFee()));
+      cateringFee = thisBooking.get_cateringFee();
     }
 
     if (!(thisBooking.get_musicFee() == null)) {
       MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(thisBooking.get_musicFee());
+      musicFee = 500;
     }
 
     if (thisBooking.get_floralFee() > 0) {
       MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
           thisBooking.get_floralType(), String.valueOf(thisBooking.get_floralFee()));
+      floralFee = thisBooking.get_floralFee();
     }
+
+    // Calculating total fee
+    int totalFee = floralFee + cateringFee + musicFee + Integer.parseInt(thisBooking.get_hireFee());
+
+    MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(String.valueOf(totalFee));
   }
 }

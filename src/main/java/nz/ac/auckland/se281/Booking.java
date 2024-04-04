@@ -9,6 +9,7 @@ public class Booking {
   private String customerEmail;
   private int cateringFee;
   private int floralFee;
+  private String hireFee;
 
   public Booking(String bookingReference, String venueName, String bookingDate, String numberofAttendees) {
     this.bookingReference = bookingReference;
@@ -63,5 +64,13 @@ public class Booking {
 
   public void set_floralFee(int floralFee) {
     this.floralFee = floralFee;
+  }
+
+  public String get_hireFee() {
+    return this.hireFee;
+  }
+
+  public void set_hireFee(String hireFee) {
+    this.hireFee = hireFee;
   }
 }

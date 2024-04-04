@@ -264,6 +264,7 @@ public class VenueHireSystem {
     nextAvailableDate(bookedVenue);
     newBooking.set_dateOfBooking(currentDate);
     newBooking.set_customerEmail(options[2]);
+    newBooking.set_hireFee(bookedVenue.get_hireFeeInput());
   }
 
   private void nextAvailableDate(Venue venue) {
@@ -385,6 +386,7 @@ public class VenueHireSystem {
     for (Booking booking : bookingList) {
       if (bookingReference.equals(booking.get_bookingReference())) {
         bookingExist = true;
+        thisBooking = booking;
       }
     }
 
@@ -423,5 +425,8 @@ public class VenueHireSystem {
         thisBooking.get_bookingDate(),
         thisBooking.get_numberOfAttendees(),
         thisBooking.get_venueName());
+    
+    MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(thisBooking.get_hireFee());
+
   }
 }

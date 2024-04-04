@@ -6,6 +6,7 @@ public class Booking {
   private String bookingDate;
   private String numberOfAttendees;
   private String dateOfBooking;
+  private String customerEmail;
 
   public Booking(String bookingReference, String venueName, String bookingDate, String numberofAttendees) {
     this.bookingReference = bookingReference;
@@ -36,5 +37,13 @@ public class Booking {
 
   public void set_dateOfBooking(String dateOfBooking) {
     this.dateOfBooking = dateOfBooking;
+  }
+
+  public String get_customerEmail() {
+    return this.customerEmail;
+  }
+
+  public void set_customerEmail(String customerEmail) {
+    this.customerEmail = customerEmail;
   }
 }

@@ -263,6 +263,7 @@ public class VenueHireSystem {
 
     nextAvailableDate(bookedVenue);
     newBooking.set_dateOfBooking(currentDate);
+    newBooking.set_customerEmail(options[2]);
   }
 
   private void nextAvailableDate(Venue venue) {

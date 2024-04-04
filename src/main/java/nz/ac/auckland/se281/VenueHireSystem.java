@@ -264,7 +264,7 @@ public class VenueHireSystem {
     nextAvailableDate(bookedVenue);
   }
 
-  private void nextAvailableDate(Venue venue){
+  private void nextAvailableDate(Venue venue) {
     // Store all booking dates for this venue in EMPTY arraylist
     bookingDatesList.clear();
     for (Booking booking : bookingList) {
@@ -340,16 +340,43 @@ public class VenueHireSystem {
     }
   }
 
+  private boolean bookingExist = false;
+
   public void addCateringService(String bookingReference, CateringType cateringType) {
-    // TODO implement this method
+    for (Booking booking : bookingList) {
+      if (bookingReference.equals(booking.get_bookingReference())) {
+        bookingExist = true;
+      }
+    }
+    // Return error message when the booking reference does not exist
+    if (!bookingExist) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
+    }
   }
 
   public void addServiceMusic(String bookingReference) {
-    // TODO implement this method
+    for (Booking booking : bookingList) {
+      if (bookingReference.equals(booking.get_bookingReference())) {
+        bookingExist = true;
+      }
+    }
+    // Return error message when the booking reference does not exist
+    if (!bookingExist) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Music", bookingReference);
+    }
   }
 
   public void addServiceFloral(String bookingReference, FloralType floralType) {
-    // TODO implement this method
+    for (Booking booking : bookingList) {
+      if (bookingReference.equals(booking.get_bookingReference())) {
+        bookingExist = true;
+      }
+    }
+
+    // Return error message when the booking reference does not exist
+    if (!bookingExist) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Floral", bookingReference);
+    }
   }
 
   public void viewInvoice(String bookingReference) {

@@ -348,10 +348,15 @@ public class VenueHireSystem {
         bookingExist = true;
       }
     }
+
     // Return error message when the booking reference does not exist
     if (!bookingExist) {
       MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
+      return;
     }
+
+    MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+        "Catering (" + cateringType.getName() + ")", bookingReference);
   }
 
   public void addServiceMusic(String bookingReference) {
@@ -363,7 +368,10 @@ public class VenueHireSystem {
     // Return error message when the booking reference does not exist
     if (!bookingExist) {
       MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Music", bookingReference);
+      return;
     }
+
+    MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Music", bookingReference);
   }
 
   public void addServiceFloral(String bookingReference, FloralType floralType) {
@@ -376,7 +384,11 @@ public class VenueHireSystem {
     // Return error message when the booking reference does not exist
     if (!bookingExist) {
       MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Floral", bookingReference);
+      return;
     }
+
+    MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+        "Floral (" + floralType.getName() + ")", bookingReference);
   }
 
   public void viewInvoice(String bookingReference) {

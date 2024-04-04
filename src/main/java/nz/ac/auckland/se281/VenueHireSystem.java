@@ -154,10 +154,15 @@ public class VenueHireSystem {
 
   private boolean venueCodeExists = false;
   private Venue bookedVenue;
+  //Create new array list of type Booking to store all of the bookings
   private ArrayList<Booking> bookingList = new ArrayList<>();
+
+  //Create new array list to store booking dates
+  private ArrayList<String> bookingDatesList = new ArrayList<>();
 
   public void makeBooking(String[] options) {
 
+    //Check if the venue code exists and assign variable of type venue as the specific venue being booked
     for (Venue venue : venueList) {
       if (venue.get_venueCode().equals(options[0])) {
         venueCodeExists = true;
@@ -166,6 +171,7 @@ public class VenueHireSystem {
       }
     }
 
+    //Print error messages for when a booking is not able to be made
     if (currentDate == null) {
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage("not set");
       return;
@@ -214,6 +220,7 @@ public class VenueHireSystem {
     int capacity = Integer.parseInt(bookedVenue.get_capacityInput());
     int newNumberOfAttendees = -1;
     if (originalNumberOfAttendees < 0.25 * capacity) {
+      //Increase number of attendees when the number of attendees is too small compared to the capacity of venue 
       newNumberOfAttendees = (int) (0.25 * capacity);
       MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
           String.valueOf(originalNumberOfAttendees),
@@ -221,6 +228,7 @@ public class VenueHireSystem {
           bookedVenue.get_capacityInput());
       options[3] = String.valueOf(newNumberOfAttendees);
     } else if (originalNumberOfAttendees > capacity) {
+      //Decrease number of attendees when the number of attendees is too large compared to the capacity of venue
       newNumberOfAttendees = capacity;
       MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
           String.valueOf(originalNumberOfAttendees),
@@ -233,14 +241,25 @@ public class VenueHireSystem {
     String bookingReference = BookingReferenceGenerator.generateBookingReference();
     MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
         bookingReference, bookedVenue.get_venueName(), options[1], options[3]);
+    //Create a new instance of this specific booking and add to the arraylist of bookings
     Booking newBooking =
         new Booking(bookingReference, bookedVenue.get_venueName(), options[1], options[3]);
     bookingList.add(newBooking);
 
+
+    //Store all booking dates for this venue in EMPTY arraylist
+    bookingDatesList.clear();
+    for (Booking booking : bookingList) {
+      if (booking.get_venueName().equals(bookedVenue.get_venueName())) {
+        bookingDatesList.add(booking.get_bookingDate());
+      }
+    }
+
+    //Calculate the next available date by incrementing the temporary date by 1 day and checking if it is booked
     String tempDate = currentDate;
     for (Booking booking : bookingList) {
       if (booking.get_venueName().equals(bookedVenue.get_venueName())) {
-        while (tempDate.equals(booking.get_bookingDate())) {
+        while (bookingDatesList.contains(tempDate)) {
           tempDate = nextDay(tempDate);
         }
       }
@@ -249,12 +268,15 @@ public class VenueHireSystem {
   }
 
   private String nextDay(String date) {
+    //Split the date string into 3 integers for each part of the date
     String[] dateParts = date.split("/");
     int day = Integer.parseInt(dateParts[0]);
     int month = Integer.parseInt(dateParts[1]);
     int year = Integer.parseInt(dateParts[2]);
 
     day = day + 1;
+
+    //Return the next day in the form of a string
     return String.format("%02d/%02d/%04d", day, month, year);
   }
 
@@ -263,23 +285,27 @@ public class VenueHireSystem {
   private int bookingCount = 0;
 
   public void printBookings(String venueCode) {
+    //Check if the given code actually exists and assign variable of type venue to the venue corresponding to the given code
     for (Venue venue : venueList) {
       if (venue.get_venueCode().equals(venueCode)) {
         codeExists = true;
         printVenue = venue;
       }
     }
-
+    //Calculate how many bookings there are for the specific venue
     for (Booking booking : bookingList) {
       if (printVenue.get_venueName().equals(booking.get_venueName())) {
         bookingCount++;
       }
     }
 
+    //Return an error message when the code does not exist
     if (codeExists == false) {
       MessageCli.PRINT_BOOKINGS_VENUE_NOT_FOUND.printMessage(venueCode);
       return;
     }
+
+    //Return all of the bookings for that specific venue
     if (bookingCount == 0) {
       MessageCli.PRINT_BOOKINGS_HEADER.printMessage(printVenue.get_venueName());
       MessageCli.PRINT_BOOKINGS_NONE.printMessage(printVenue.get_venueName());

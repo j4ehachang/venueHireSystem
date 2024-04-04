@@ -361,7 +361,7 @@ public class VenueHireSystem {
 
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
         "Catering (" + cateringType.getName() + ")", bookingReference);
-    
+
     int numberOfAttendees = Integer.parseInt(thisBooking.get_numberOfAttendees());
     int cateringFee = numberOfAttendees * cateringType.getCostPerPerson();
     thisBooking.set_cateringFee(cateringFee);
@@ -429,11 +429,21 @@ public class VenueHireSystem {
         thisBooking.get_bookingDate(),
         thisBooking.get_numberOfAttendees(),
         thisBooking.get_venueName());
-    
+
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(thisBooking.get_hireFee());
 
-    if (thisBooking.get_cateringFee() > 0){
-      MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(thisBooking.get_cateringType(), String.valueOf(thisBooking.get_cateringFee()));
+    if (thisBooking.get_cateringFee() > 0) {
+      MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
+          thisBooking.get_cateringType(), String.valueOf(thisBooking.get_cateringFee()));
+    }
+
+    if (!(thisBooking.get_musicFee() == null)) {
+      MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(thisBooking.get_musicFee());
+    }
+
+    if (thisBooking.get_floralFee() > 0) {
+      MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
+          thisBooking.get_floralType(), String.valueOf(thisBooking.get_floralFee()));
     }
   }
 }

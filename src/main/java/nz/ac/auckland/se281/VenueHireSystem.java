@@ -40,16 +40,21 @@ public class VenueHireSystem {
       for (Venue venue : venueList) {
         venue.set_nextAvailableDate("INVALID");
       }
-    }
-    // For venues that have no bookings the next available date is the current date
-    for (Venue venue : venueList) {
-      if (venue.get_nextAvailableDate() == null) {
-        venue.set_nextAvailableDate(currentDate);
+    } else {
+      // For venues that have no bookings the next available date is the current date
+      for (Venue venue : venueList) {
+        if (venue.get_nextAvailableDate() == null) {
+          venue.set_nextAvailableDate(currentDate);
+        }
+      }
+
+      // The next available date cannot be in the past (behind the current date)
+      for (Venue venue : venueList) {
+        if (beforeCurrentDate(currentDate, venue.get_nextAvailableDate())) {
+          nextAvailableDate(venue);
+        }
       }
     }
-
-    // The next available date cannot be in the past (behind the current date)
-
     // If there are no venues in the system tell the user to create a venue first
     if (venueList.isEmpty()) {
       MessageCli.NO_VENUES.printMessage();
@@ -208,10 +213,10 @@ public class VenueHireSystem {
       return;
     }
 
-      if (beforeCurrentDate(currentDate, options[1])) {
-        MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], currentDate);
+    if (beforeCurrentDate(currentDate, options[1])) {
+      MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], currentDate);
       return;
-      }
+    }
 
     // Return error message if same venue is booked on the same date
     for (Booking booking : bookingList) {
@@ -256,10 +261,14 @@ public class VenueHireSystem {
         new Booking(bookingReference, bookedVenue.get_venueName(), options[1], options[3]);
     bookingList.add(newBooking);
 
+    nextAvailableDate(bookedVenue);
+  }
+
+  private void nextAvailableDate(Venue venue){
     // Store all booking dates for this venue in EMPTY arraylist
     bookingDatesList.clear();
     for (Booking booking : bookingList) {
-      if (booking.get_venueName().equals(bookedVenue.get_venueName())) {
+      if (booking.get_venueName().equals(venue.get_venueName())) {
         bookingDatesList.add(booking.get_bookingDate());
       }
     }
@@ -268,13 +277,13 @@ public class VenueHireSystem {
     // it is booked
     String tempDate = currentDate;
     for (Booking booking : bookingList) {
-      if (booking.get_venueName().equals(bookedVenue.get_venueName())) {
+      if (booking.get_venueName().equals(venue.get_venueName())) {
         while (bookingDatesList.contains(tempDate)) {
           tempDate = nextDay(tempDate);
         }
       }
     }
-    bookedVenue.set_nextAvailableDate(tempDate);
+    venue.set_nextAvailableDate(tempDate);
   }
 
   private String nextDay(String date) {

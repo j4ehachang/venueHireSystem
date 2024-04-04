@@ -371,6 +371,7 @@ public class VenueHireSystem {
     for (Booking booking : bookingList) {
       if (bookingReference.equals(booking.get_bookingReference())) {
         bookingExist = true;
+        thisBooking = booking;
       }
     }
     // Return error message when the booking reference does not exist
@@ -380,6 +381,7 @@ public class VenueHireSystem {
     }
 
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Music", bookingReference);
+    thisBooking.set_musicfee("500");
   }
 
   public void addServiceFloral(String bookingReference, FloralType floralType) {

@@ -1,5 +1,8 @@
 package nz.ac.auckland.se281;
 
+import nz.ac.auckland.se281.Types.CateringType;
+import nz.ac.auckland.se281.Types.FloralType;
+
 public class Booking {
   private String bookingReference;
   private String venueName;
@@ -10,6 +13,9 @@ public class Booking {
   private int cateringFee;
   private int floralFee;
   private String hireFee;
+  private CateringType cateringType;
+  private FloralType floralType;
+  private String musicFee;
 
   public Booking(String bookingReference, String venueName, String bookingDate, String numberofAttendees) {
     this.bookingReference = bookingReference;
@@ -73,4 +79,29 @@ public class Booking {
   public void set_hireFee(String hireFee) {
     this.hireFee = hireFee;
   }
+
+  public CateringType get_cateringType() {
+    return this.cateringType;
+  }
+
+  public void set_cateringType(CateringType cateringType) {
+    this.cateringType = cateringType;
+  }
+
+  public FloralType get_floralType() {
+    return this.floralType;
+  }
+
+  public void set_floralType(FloralType floralType) {
+    this.floralType = floralType;
+  }
+
+  public String get_musicFee() {
+    return this.musicFee;
+  }
+
+  public void set_musicfee(String musicFee) {
+    this.musicFee = musicFee;
+  }
+
 }

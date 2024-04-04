@@ -5,6 +5,7 @@ public class Booking {
   private String venueName;
   private String bookingDate;
   private String numberOfAttendees;
+  private String dateOfBooking;
 
   public Booking(String bookingReference, String venueName, String bookingDate, String numberofAttendees) {
     this.bookingReference = bookingReference;
@@ -27,5 +28,13 @@ public class Booking {
 
   public String get_numberOfAttendees() {
     return this.numberOfAttendees;
+  }
+
+  public String get_dateOfBooking() {
+    return this.dateOfBooking;
+  }
+
+  public void set_dateOfBooking(String dateOfBooking) {
+    this.dateOfBooking = dateOfBooking;
   }
 }

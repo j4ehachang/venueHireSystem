@@ -393,10 +393,13 @@ public class VenueHireSystem {
         "Floral (" + floralType.getName() + ")", bookingReference);
   }
 
+  private Booking thisBooking;
+
   public void viewInvoice(String bookingReference) {
     for (Booking booking : bookingList) {
       if (bookingReference.equals(booking.get_bookingReference())) {
         bookingExist = true;
+        thisBooking = booking;
       }
     }
 
@@ -405,5 +408,13 @@ public class VenueHireSystem {
       MessageCli.VIEW_INVOICE_BOOKING_NOT_FOUND.printMessage(bookingReference);
       return;
     }
+
+    MessageCli.INVOICE_CONTENT_TOP_HALF.printMessage(
+        bookingReference,
+        thisBooking.get_customerEmail(),
+        thisBooking.get_dateOfBooking(),
+        thisBooking.get_bookingDate(),
+        thisBooking.get_numberOfAttendees(),
+        thisBooking.get_venueName());
   }
 }

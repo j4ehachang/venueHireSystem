@@ -392,6 +392,16 @@ public class VenueHireSystem {
   }
 
   public void viewInvoice(String bookingReference) {
-    // TODO implement this method
+    for (Booking booking : bookingList) {
+      if (bookingReference.equals(booking.get_bookingReference())) {
+        bookingExist = true;
+      }
+    }
+
+    // Return error message when the booking reference does not exist
+    if (!bookingExist) {
+      MessageCli.VIEW_INVOICE_BOOKING_NOT_FOUND.printMessage(bookingReference);
+      return;
+    }
   }
 }

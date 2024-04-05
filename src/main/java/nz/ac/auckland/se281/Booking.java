@@ -7,14 +7,10 @@ public class Booking {
   private String numberOfAttendees;
   private String dateOfBooking;
   private String customerEmail;
-  private int cateringFee;
-  private int floralFee;
   private String hireFee;
-  private String cateringType;
-  private String floralType;
-  private String musicFee;
 
-  public Booking(String bookingReference, String venueName, String bookingDate, String numberofAttendees) {
+  public Booking(
+      String bookingReference, String venueName, String bookingDate, String numberofAttendees) {
     this.bookingReference = bookingReference;
     this.venueName = venueName;
     this.bookingDate = bookingDate;
@@ -53,22 +49,6 @@ public class Booking {
     this.customerEmail = customerEmail;
   }
 
-  public int get_cateringFee() {
-    return this.cateringFee;
-  }
-
-  public void set_cateringFee(int cateringFee) {
-    this.cateringFee = cateringFee;
-  }
-
-  public int get_floralFee() {
-    return this.floralFee;
-  }
-
-  public void set_floralFee(int floralFee) {
-    this.floralFee = floralFee;
-  }
-
   public String get_hireFee() {
     return this.hireFee;
   }
@@ -76,29 +56,4 @@ public class Booking {
   public void set_hireFee(String hireFee) {
     this.hireFee = hireFee;
   }
-
-  public String get_cateringType() {
-    return this.cateringType;
-  }
-
-  public void set_cateringType(String cateringType) {
-    this.cateringType = cateringType;
-  }
-
-  public String get_floralType() {
-    return this.floralType;
-  }
-
-  public void set_floralType(String floralType) {
-    this.floralType = floralType;
-  }
-
-  public String get_musicFee() {
-    return this.musicFee;
-  }
-
-  public void set_musicfee(String musicFee) {
-    this.musicFee = musicFee;
-  }
-
 }

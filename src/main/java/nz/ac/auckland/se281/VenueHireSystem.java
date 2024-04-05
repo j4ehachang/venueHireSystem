@@ -408,12 +408,12 @@ public class VenueHireSystem {
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
         "Floral (" + floralType.getName() + ")", bookingReference);
 
-    thisBooking.set_floralFee(floralType.getCost());
-    thisBooking.set_floralType(floralType.getName());
+    FloralService floralService =
+        new FloralService(bookingReference, floralType.getName(), floralType.getCost());
+    floralList.add(floralService);
   }
 
   private Booking thisBooking;
-
   private int totalCateringFee = 0;
   private int totalFloralFee = 0;
   private int totalMusicFee = 0;
@@ -452,15 +452,18 @@ public class VenueHireSystem {
 
     for (MusicService musicService : musicList) {
       if (musicService.get_bookingReference().equals(bookingReference)) {
-        MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(String.valueOf(musicService.get_serviceFee()));
+        MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(
+            String.valueOf(musicService.get_serviceFee()));
         totalMusicFee = totalMusicFee + musicService.get_serviceFee();
       }
     }
 
-    if (thisBooking.get_floralFee() > 0) {
-      MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
-          thisBooking.get_floralType(), String.valueOf(thisBooking.get_floralFee()));
-      totalFloralFee = thisBooking.get_floralFee();
+    for (FloralService floralService : floralList) {
+      if (floralService.get_bookingReference().equals(bookingReference)) {
+        MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
+            floralService.get_typeName(), String.valueOf(floralService.get_serviceFee()));
+        totalFloralFee = totalFloralFee + floralService.get_serviceFee();
+      }
     }
 
     // Calculating total fee

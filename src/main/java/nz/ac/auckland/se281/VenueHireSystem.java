@@ -345,6 +345,8 @@ public class VenueHireSystem {
 
   private boolean bookingExist = false;
   private ArrayList<CateringService> cateringList = new ArrayList<>();
+  private ArrayList<MusicService> musicList = new ArrayList<>();
+  private ArrayList<FloralService> floralList = new ArrayList<>();
 
   public void addCateringService(String bookingReference, CateringType cateringType) {
     for (Booking booking : bookingList) {
@@ -385,7 +387,8 @@ public class VenueHireSystem {
     }
 
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Music", bookingReference);
-    thisBooking.set_musicfee("500");
+    MusicService musicService = new MusicService(bookingReference, "Music", 500);
+    musicList.add(musicService);
   }
 
   public void addServiceFloral(String bookingReference, FloralType floralType) {
@@ -447,9 +450,11 @@ public class VenueHireSystem {
       }
     }
 
-    if (!(thisBooking.get_musicFee() == null)) {
-      MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(thisBooking.get_musicFee());
-      totalMusicFee = 500;
+    for (MusicService musicService : musicList) {
+      if (musicService.get_bookingReference().equals(bookingReference)) {
+        MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(String.valueOf(musicService.get_serviceFee()));
+        totalMusicFee = totalMusicFee + musicService.get_serviceFee();
+      }
     }
 
     if (thisBooking.get_floralFee() > 0) {

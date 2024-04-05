@@ -344,6 +344,7 @@ public class VenueHireSystem {
   }
 
   private boolean bookingExist = false;
+  private ArrayList<CateringService> cateringList = new ArrayList<>();
 
   public void addCateringService(String bookingReference, CateringType cateringType) {
     for (Booking booking : bookingList) {
@@ -362,10 +363,12 @@ public class VenueHireSystem {
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
         "Catering (" + cateringType.getName() + ")", bookingReference);
 
-    int numberOfAttendees = Integer.parseInt(thisBooking.get_numberOfAttendees());
-    int cateringFee = numberOfAttendees * cateringType.getCostPerPerson();
-    thisBooking.set_cateringFee(cateringFee);
-    thisBooking.set_cateringType(cateringType.getName());
+    int cateringFee =
+        Integer.parseInt(thisBooking.get_numberOfAttendees()) * cateringType.getCostPerPerson();
+
+    CateringService cateringService =
+        new CateringService(bookingReference, cateringType.getName(), cateringFee);
+    cateringList.add(cateringService);
   }
 
   public void addServiceMusic(String bookingReference) {
@@ -407,9 +410,10 @@ public class VenueHireSystem {
   }
 
   private Booking thisBooking;
-  private int cateringFee = 0;
-  private int floralFee = 0;
-  private int musicFee = 0;
+
+  private int totalCateringFee = 0;
+  private int totalFloralFee = 0;
+  private int totalMusicFee = 0;
 
   public void viewInvoice(String bookingReference) {
     for (Booking booking : bookingList) {
@@ -435,25 +439,31 @@ public class VenueHireSystem {
 
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(thisBooking.get_hireFee());
 
-    if (thisBooking.get_cateringFee() > 0) {
-      MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
-          thisBooking.get_cateringType(), String.valueOf(thisBooking.get_cateringFee()));
-      cateringFee = thisBooking.get_cateringFee();
+    for (CateringService cateringService : cateringList) {
+      if (cateringService.get_bookingReference().equals(bookingReference)) {
+        MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
+            cateringService.get_typeName(), String.valueOf(cateringService.get_serviceFee()));
+        totalCateringFee = totalCateringFee + cateringService.get_serviceFee();
+      }
     }
 
     if (!(thisBooking.get_musicFee() == null)) {
       MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(thisBooking.get_musicFee());
-      musicFee = 500;
+      totalMusicFee = 500;
     }
 
     if (thisBooking.get_floralFee() > 0) {
       MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
           thisBooking.get_floralType(), String.valueOf(thisBooking.get_floralFee()));
-      floralFee = thisBooking.get_floralFee();
+      totalFloralFee = thisBooking.get_floralFee();
     }
 
     // Calculating total fee
-    int totalFee = floralFee + cateringFee + musicFee + Integer.parseInt(thisBooking.get_hireFee());
+    int totalFee =
+        totalFloralFee
+            + totalCateringFee
+            + totalMusicFee
+            + Integer.parseInt(thisBooking.get_hireFee());
 
     MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(String.valueOf(totalFee));
   }

@@ -282,14 +282,14 @@ public class VenueHireSystem {
     for (Booking booking : bookingList) {
       if (booking.get_venueName().equals(venue.get_venueName())) {
         while (bookingDatesList.contains(tempDate)) {
-          tempDate = nextDay(tempDate);
+          tempDate = getNextDay(tempDate);
         }
       }
     }
     venue.set_nextAvailableDate(tempDate);
   }
 
-  private String nextDay(String date) {
+  private String getNextDay(String date) {
     // Split the date string into 3 integers for each part of the date
     String[] dateParts = date.split("/");
     int day = Integer.parseInt(dateParts[0]);
@@ -419,6 +419,8 @@ public class VenueHireSystem {
   private int totalMusicFee = 0;
 
   public void viewInvoice(String bookingReference) {
+
+    // Find the specific booking we are trying to print out an invoice for
     for (Booking booking : bookingList) {
       if (bookingReference.equals(booking.get_bookingReference())) {
         bookingExist = true;
@@ -442,6 +444,7 @@ public class VenueHireSystem {
 
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(thisBooking.get_hireFee());
 
+    // If there are any catering services added then list them and print out cost
     for (CateringService cateringService : cateringList) {
       if (cateringService.get_bookingReference().equals(bookingReference)) {
         MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
@@ -450,6 +453,7 @@ public class VenueHireSystem {
       }
     }
 
+    // If there are any music services added then list them and print out cost
     for (MusicService musicService : musicList) {
       if (musicService.get_bookingReference().equals(bookingReference)) {
         MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(
@@ -458,6 +462,7 @@ public class VenueHireSystem {
       }
     }
 
+    // If there are any floral services added then list them and print out cost
     for (FloralService floralService : floralList) {
       if (floralService.get_bookingReference().equals(bookingReference)) {
         MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
@@ -466,7 +471,7 @@ public class VenueHireSystem {
       }
     }
 
-    // Calculating total fee
+    // Calculating total fee and print out the bottom half of the invoice
     int totalFee =
         totalFloralFee
             + totalCateringFee
